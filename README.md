@@ -11,5 +11,6 @@ Permite verficar la disponibilidad, entre otras funcionalidades, del laboratorio
 ## En desarrollo
 ```
 /block ~ Bloquear bloques en tiempo real
+/turnnow ~ Quien esta de turno ahora, solo ayus
 ```
 
