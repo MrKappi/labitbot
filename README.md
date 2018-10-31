@@ -1,2 +1,2 @@
-# labitbot
-LabIT Telegram bot.
+# Labot
+
