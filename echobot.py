@@ -112,53 +112,53 @@ def bloques():
     time = (int(datetime.datetime.now().strftime("%H")),int(datetime.datetime.now().strftime("%M")))
     if time>= (8,00) and time < (9,45):
         if time <= (9,30):
-            m = "[1-2]\n"
+            m = "Estás en el bloque [1-2]\n"
             return m
         else: 
             minu = 45-time[1]
-            m = "Recreo, te quedan " + str(minu) + " minutos para el bloque [3-4]"
+            m = "Estás en recreo, te quedan " + str(minu) + " minutos para el bloque [3-4]"
             return m    
     elif time>= (9,45) and time < (11,30):
         if time <= (11,15):
-            m = "[3-4]\n"
+            m = "Estás en el bloque [3-4]\n"
             return m
         else: 
             minu = 30-time[1]
-            m = "Recreo, te quedan " + str(minu) + " minutos para el bloque [5-6]"
+            m = "Estás en recreo, te quedan " + str(minu) + " minutos para el bloque [5-6]"
             return m
     elif time>= (11,30) and time < (13,00):
-        m = "[5-6]\n"
+        m = "Estás en el bloque [5-6]\n"
         return m
     elif time>= (13,00) and time < (14,00):
         minu = 60 - time[1]
-        m = "Almuerzo, te quedan " + str(minu) + " minutos para el bloque [7-8]"
+        m = "Estás en horario de almuerzo, te quedan " + str(minu) + " minutos para el bloque [7-8]"
         return m
     elif time>= (14,00) and time < (15,40):
         if time <= (15,30):
-            m = "[7-8]\n"
+            m = "Estás en el bloque [7-8]\n"
             return m
         else: 
             minu = 40-time[1]
-            m = "Recreo, te quedan " + str(minu) + " minutos para el bloque [9-10]"
+            m = "Estás en recreo, te quedan " + str(minu) + " minutos para el bloque [9-10]"
             return m    
     elif time>= (15,40) and time < (17,20):
         if time <= (17,10):
-            m = "[9-10]\n"
+            m = "Estás en el bloque [9-10]\n"
             return m
         else: 
             minu = 20-time[1]
-            m = "Recreo, te quedan " + str(minu) + " minutos para el bloque [11-12]"
+            m = "Estás en recreo, te quedan " + str(minu) + " minutos para el bloque [11-12]"
             return m
     elif time>= (17,20) and time < (19,00):
         if time <= (18,50):
-            m = "[11-12]\n"
+            m = "Estás en el bloque [11-12]\n"
             return m
         else: 
             minu = 60 - time[1]
-            m = "Recreo, te quedan " + str(minu) + " minutos para el bloque [13-14]"
+            m = "Estás en recreo, te quedan " + str(minu) + " minutos para el bloque [13-14]"
             return m
     elif time>= (19,00) and time < (20,30):
-        m = "[13-14]"
+        m = "Estás en el bloque [13-14]"
         return m
     elif time>= (20,30):
         m = "Ándate pa la casa hermano/a\n"
@@ -189,7 +189,7 @@ def pattern_matcher(text, chat_id, user):
         if cmd == "start":
             send_message("Hi, I'm totally not a NPC", chat_id)
         elif cmd == "turns":
-            "Restringir a usuarios labit"
+            #Restringir a usuarios labit
             if user in privileged_users:
                 message = get_turns(date)
                 send_message(message, chat_id)  
