@@ -4,11 +4,17 @@ import time
 import urllib
 import datetime
 
-#System functions
+#Constants
 #----------------------------------------------------------------------
 TOKEN = "660857756:AAHnUPjue5koyNz5tfB0ZVHaWtARZXOq3eI"
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 URL2 = "https://api-labit-turnos.herokuapp.com/turns/"
+
+privileged_users  = ['mr_kappi','Brunalga','BarronStack', 'StephieSC','fchacon','gatopeluo','flapimingo','Nakio', 'DreWulff','Json95']
+#Missing: Diego Carvajal, Joshe, Nicho 
+
+#----------------------------------------------------------------------
+#Telegram API related functions
 
 def get_url(url):
     response = requests.get(url)
@@ -50,7 +56,7 @@ def parser(updates):
         except Exception as e:
             print(e)         
 #----------------------------------------------------------------------
-#Aditional Stuff (dictionaries...)
+# My bot functions
 def converter(day_name):
     if (day_name=="Monday" or day_name=="Lunes"):
         return 0
@@ -100,9 +106,6 @@ def get_availability(date):
         day+=1
         mess += mess_day
     return mess
-
-privileged_users  = ['mr_kappi','Brunalga','BarronStack', 'StephieSC','fchacon','gatopeluo','flapimingo','Nakio', 'DreWulff','Json95']
-#Missing: Diego Carvajal, Joshe, Nicho 
 
 def bloques():
     mess = ""
@@ -161,22 +164,26 @@ def bloques():
         m = "Ándate pa la casa hermano/a\n"
         return m
 #----------------------------------------------------------------------
+# Pattern Matcher
 #To add functions use this space, pattern_matcher will verifiy the text and get the command, you can add a case to the "switch"
 #this way your function will be recognized
 #Use parser to get the text, chat_id and user_from 
 #Use send_message(txt, chat_id) to send a message to the user
  
-#debugg findes 
 def pattern_matcher(text, chat_id, user):
     text = text.split(" ")
     success = 0
     cmd = ""
+    date = get_date()
+
     for phrase in text:
         if len(phrase.split("/"))>1:
             success +=1
             cmd = phrase.split("/")[-1]
     if success==0:
         send_message("There's no command to resolve",chat_id)
+    elif date == "Sabado" or date == "Saturday" or date == "Domingo" or date == "Sunday":
+        send_message("Lo siento, no trabajo los fines de semana", chat_id)   
     else:        
         # Begin Switch/case for available commands
         if cmd == "start":
@@ -184,17 +191,14 @@ def pattern_matcher(text, chat_id, user):
         elif cmd == "turns":
             "Restringir a usuarios labit"
             if user in privileged_users:
-                date = get_date()
                 message = get_turns(date)
                 send_message(message, chat_id)  
             else:
                 send_message("No tienes privilegios para hacer esa accion",chat_id)     
         elif cmd == "today":
-            date = get_date()
             message = "La disponibilidad del laboratorio en el día de hoy es:\n" + get_availability_today(date)
             send_message(message, chat_id)
         elif cmd == "thisweek":
-            date = get_date()
             message = "La disponibilidad del laboratorio para el resto de la semana:\n" + get_availability(date)
             send_message(message, chat_id)
         elif cmd == "block":
@@ -203,7 +207,7 @@ def pattern_matcher(text, chat_id, user):
                 send_message("/dateblock in development", chat_id)   
             else:
                 send_message("No tienes privilegios para hacer esa accion",chat_id)     
-        elif cmd == "time": #cambiar a bloques
+        elif cmd == "time": 
             send_message(bloques(),chat_id)       
         else:
             send_message("That command doesn't exist (maybe yet)", chat_id)    
