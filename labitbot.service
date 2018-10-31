@@ -1,0 +1,10 @@
+[Unit]
+Description = Labitbot python service
+After = network-online.target
+
+[Service]
+Type = idle
+ExecStart = /usr/bin/python3 /root/labitbot/labitbot.py > /root/labitbot/botService.log 2>&1
+
+[Install]
+WantedBy = multi-user.target

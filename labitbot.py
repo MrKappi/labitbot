@@ -13,6 +13,8 @@ URL2 = "https://api-labit-turnos.herokuapp.com/turns/"
 privileged_users  = ['mr_kappi','Brunalga','BarronStack', 'StephieSC','fchacon','gatopeluo','flapimingo','Nakio', 'DreWulff','Json95']
 #Missing: Diego Carvajal, Joshe, Nicho 
 
+
+
 #----------------------------------------------------------------------
 #Telegram API related functions
 
@@ -79,8 +81,9 @@ def get_turns(date):
     del schedule["Horario/Día"]
     index = converter(date)
     mess = "Los ayudantes con turno el dia de hoy son:\n"
-    for block, helpers in schedule.items():
-        mess += block + ": " + helpers[index] + "\n"
+    blocks = ["1-2","3-4","5-6","7-8","9-10","11-12","13-14"]		
+    for bl in blocks:
+        mess += bl + ": " + schedule[bl][index] + "\n"
     return mess
 
 def get_availability_today(date):
@@ -89,12 +92,13 @@ def get_availability_today(date):
     del schedule["Horario/Día"]
     index = converter(date)
     mess = ""
-    for block, avai in schedule.items():
-        available = avai[index]
+    blocks = ["1-2","3-4","5-6","7-8","9-10","11-12","13-14"]
+    for bl in blocks:
+        available = schedule[bl][index]
         if available == '0': #0 sera si el lab esta libre
-            mess += "   " + block + ": Disponible\n"
+            mess += "   " + bl + ": Disponible\n"
         else:    
-            mess += "   " + block + ": Cerrado\n"
+            mess += "   " + bl + ": Cerrado\n"
     return mess
 
 def get_availability(date):
