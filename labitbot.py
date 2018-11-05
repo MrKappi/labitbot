@@ -167,6 +167,42 @@ def bloques():
     elif time>= (20,30):
         m = "Ándate pa la casa hermano/a\n"
         return m
+
+def turno_now():
+    mess = ""
+    hora = (int(datetime.datetime.now().strftime("%H")),int(datetime.datetime.now().strftime("%M")))
+    if hora>= (8,00) and hora < (9,45): #1-2
+        bloque = "1-2"    
+    elif hora>= (9,45) and hora < (11,30): #3-4
+        bloque = "3-4"  
+    elif hora>= (11,30) and hora < (13,00): #5-6
+        bloque = "5-6"  
+    elif hora>= (14,00) and hora < (15,40): #7-8
+        bloque = "7-8"   
+    elif hora>= (15,40) and hora < (17,20): #9-10
+        bloque = "9-10"
+    elif hora>= (17,20) and hora < (19,00): #11-12
+        bloque = "11-12"
+    elif hora>= (19,00) and hora < (20,30): #13-14
+        bloque = "13-14"
+    else:
+        bloque = "none"
+            
+    day = converter(get_date())
+    schedule = get_json_from_url(URL2)
+    schedule = json.loads(schedule["Turnos"])
+    del schedule["Horario/Día"]
+    if bloque != "none":
+        if schedule[bloque][day] != "-":
+            mess = schedule[bloque][day] + "\n"
+            return mess
+        else:
+            mess = "No hay nadie de turno por este bloque"
+            return mess    
+    else:
+        mess = "No hay nadie de turno por este bloque"
+        return mess 
+
 #----------------------------------------------------------------------
 # Pattern Matcher
 #To add functions use this space, pattern_matcher will verifiy the text and get the command, you can add a case to the "switch"
@@ -198,7 +234,13 @@ def pattern_matcher(text, chat_id, user):
                 message = get_turns(date)
                 send_message(message, chat_id)  
             else:
-                send_message("No tienes privilegios para hacer esa accion",chat_id)     
+                send_message("No tienes privilegios para hacer esa accion",chat_id)
+        elif cmd == "nowturn":
+            #Restringir a usuarios labit
+            if user in privileged_users:
+                send_message(turno_now(), chat_id)  
+            else:
+                send_message("No tienes privilegios para hacer esa accion",chat_id)             
         elif cmd == "today":
             message = "La disponibilidad del laboratorio en el día de hoy es:\n" + get_availability_today(date)
             send_message(message, chat_id)
